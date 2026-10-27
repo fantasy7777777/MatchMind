@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MatchMind explainable football match intelligence prototype" />
+    <title>MatchMind | Match intelligence</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">MATCHMIND / LIVE INTELLIGENCE</p>
+          <h1>Northbridge United <span>vs</span> Harbor City</h1>
+          <p class="muted"><span class="status-dot"></span> Simulated match · provider-neutral prototype</p>
+        </div>
+        <div class="scoreboard" aria-label="Match score">
+          <strong id="score">0 — 0</strong>
+          <span id="clock">00:00 · 1st half</span>
+          <small id="resultLabel">Live match</small>
+        </div>
+      </header>
+
+      <section class="control-strip" aria-label="Match controls">
+        <button id="resetButton" class="quiet-button">Reset</button>
+        <label class="speed-control">Speed
+          <select id="speedSelect">
+            <option value="1">1×</option>
+            <option value="2" selected>2×</option>
+            <option value="4">4×</option>
+          </select>
+        </label>
+        <label class="detail-control">View
+          <select id="detailSelect">
+            <option value="compact">Compact</option>
+            <option value="detailed" selected>Detailed</option>
+          </select>
+        </label>
+        <span id="stateMessage" class="control-message">Start playback — MatchMind will pause at the featured foul.</span>
+      </section>
+      <section class="stats-grid" aria-label="Live match statistics">
+        <article class="stat-card"><span>Possession</span><div class="stat-values"><div><b>Northbridge</b><strong id="possessionHome">50%</strong></div><div><b>Harbor City</b><strong id="possessionAway">50%</strong></div></div></article>
+        <article class="stat-card"><span>Shots</span><div class="stat-values"><div><b>Northbridge</b><strong id="shotsHome">0</strong></div><div><b>Harbor City</b><strong id="shotsAway">0</strong></div></div></article>
+        <article class="stat-card"><span>Shots on target</span><div class="stat-values"><div><b>Northbridge</b><strong id="onTargetHome">0</strong></div><div><b>Harbor City</b><strong id="onTargetAway">0</strong></div></div></article>
+        <article class="stat-card"><span>Corners</span><div class="stat-values"><div><b>Northbridge</b><strong id="cornersHome">0</strong></div><div><b>Harbor City</b><strong id="cornersAway">0</strong></div></div></article>
+      </section>
+
+      <section class="workspace">
+        <div class="panel timeline-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">LIVE FEED</p><h2>Match timeline</h2></div>
+            <span class="live-badge">LIVE FEED</span>
+          </div>
+          <div id="timeline" class="timeline" aria-live="polite"></div>
+        </div>
+
+        <div class="panel pitch-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">SPATIAL CONTEXT · 4-3-3 FORMATION</p><h2 id="pitchTitle">Match positioning</h2></div>
+            <div class="heading-actions"><button id="eventDetailsButton" class="quiet-button small-button" type="button" hidden>Expand event</button><span id="selectedTag" class="selected-tag">Select an event</span></div>
+          </div>
+          <div class="pitch-wrap">
+            <div class="pitch" id="pitch" aria-label="Football pitch visualization">
+              <div class="halfway"></div><div class="center-circle"></div>
+              <div class="box left-box"></div><div class="box right-box"></div>
+              <div class="goal left-goal"></div><div class="goal right-goal"></div>
+              <div id="players" aria-label="Nearby player positions"></div>
+              <span id="ball" class="marker ball-marker" title="Ball">B</span>
+              <span id="referee" class="marker referee-marker" title="Referee">R</span>
+              <span id="incident" class="incident-marker" title="Selected event"></span>
+              <span id="trajectory" class="trajectory" aria-label="Ball trajectory"></span>
+            </div>
+          </div>
+          <div class="pitch-legend" aria-label="Pitch legend">
+            <span><i class="legend-dot home-dot"></i>Northbridge United</span>
+            <span><i class="legend-dot away-dot"></i>Harbor City</span>
+            <span><i class="legend-dot ball-dot"></i>Ball</span>
+            <span><i class="legend-dot referee-dot"></i>Referee</span>
+            <span><i class="legend-dot incident-dot"></i>Incident</span>
+          </div>
+          <div id="positionSummary" class="position-summary">Position samples will appear when an event is selected.</div>
+          <div id="eventDetails" class="event-details" hidden></div>
+          <div id="demoContext" class="demo-context" aria-live="polite">Outside detailed demo window · synthetic match replay</div>
+          <div class="demo-controls" aria-label="Focused demo controls">
+            <button id="playButton" class="primary-button" type="button">Play demo</button>
+            <button id="demoButton" class="quiet-button" type="button">Load focused demo · 76:00–78:05</button>
+          </div>
+          <section class="match-scrubber" aria-label="Match navigation">
+            <div class="scrubber-label"><span>Match progress</span><strong id="progressClock">00:00 / 90:00</strong></div>
+            <input id="matchProgress" type="range" min="0" max="5400" value="0" step="1" aria-label="Navigate match timeline" />
+            <div class="scrubber-scale"><span>Kickoff</span><span>Drag or use quick jumps</span><span>Full time</span></div>
+            <div class="jump-controls" aria-label="Quick match navigation">
+              <button class="quiet-button small-button" id="jumpFirstHalf" type="button">1st half</button>
+              <button class="quiet-button small-button" id="jumpSecondHalf" type="button">2nd half</button>
+              <button class="quiet-button small-button" id="jumpSeventy" type="button">70:00</button>
+              <button class="quiet-button small-button" id="demoJumpButton" type="button">76:00</button>
+              <button class="quiet-button small-button" id="jumpFullTime" type="button">90:00</button>
+            </div>
+          </section>
+        </div>
+
+        <div id="insightContent" class="insight-content" hidden>
+          <span id="confidence">—</span>
+        </div>
+      </section>
+      <section id="analystPanel" class="panel analyst-panel" hidden>
+        <div class="panel-heading">
+          <div><p class="eyebrow">PRODUCTION OUTPUT</p><h2>Structured event and insight</h2></div>
+          <span class="live-badge">MACHINE-READABLE</span>
+        </div>
+        <pre id="analystPayload" class="analyst-payload"></pre>
+      </section>
+    </main>
+    <script src="scenario.js"></script>
+    <script src="domain.js"></script>
+    <script src="forecast-service.js"></script>
+    <script src="insight-service.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

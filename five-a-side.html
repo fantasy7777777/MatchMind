@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MatchMind focused 5v5 football intelligence scenarios" />
+    <title>MatchMind | 5v5 scenarios</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="five-a-side.css" />
+  </head>
+  <body>
+    <main class="app-shell five-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">MATCHMIND / FOCUSED INTELLIGENCE</p>
+          <h1>5v5 <span>scenario lab</span></h1>
+          <p class="muted"><span class="status-dot"></span> Synthetic scenario data</p>
+        </div>
+        <div class="scoreboard">
+          <strong id="scenarioClock">00:00</strong>
+          <span id="scenarioType">Long ball and breakthrough</span>
+          <small>5 players per side</small>
+        </div>
+      </header>
+
+      <section class="five-intro panel">
+        <div>
+          <p class="eyebrow">WHY THIS MODE</p>
+          <h2>One football question at a time</h2>
+          <p>Follow a small, authored sequence with clear roles, possession, and outcome. Select a scenario, then play it from start to finish.</p>
+        </div>
+        <div class="scenario-buttons" aria-label="Choose a 5v5 scenario">
+          <button class="scenario-button selected" data-scenario="breakthrough" type="button"><b>Long ball and breakthrough</b><small>Timed run beats the dropping line</small></button>
+          <button class="scenario-button" data-scenario="foul" type="button"><b>Foul under pressure</b><small>Defender stops the counter</small></button>
+          <button class="scenario-button" data-scenario="corner" type="button"><b>Corner-kick assist</b><small>Screen creates a finish</small></button>
+        </div>
+      </section>
+
+      <details id="rosterPanel" class="roster-panel">
+        <summary><span><b>Team rosters</b><small>View player names, shirt numbers, and roles</small></span><span class="roster-summary-tag">5v5 · 10 players</span></summary>
+        <div id="rosterContent" class="roster-grid" aria-label="Home and away team rosters"></div>
+      </details>
+
+      <section class="five-layout">
+        <div class="panel five-timeline-panel">
+          <div class="panel-heading"><div><p class="eyebrow">AUTHORED SEQUENCE</p><h2 id="scenarioTitle">Long ball and breakthrough</h2></div><span class="live-badge">5v5</span></div>
+          <div id="scenarioTimeline" class="five-timeline" aria-live="polite"></div>
+          <div class="five-explanation"><strong id="explanationTitle">What MatchMind sees</strong><p id="explanation">Qi checks into the far channel, accelerates behind a retreating line, and meets Gray's lofted diagonal in stride.</p></div>
+          <details id="viewerDetails" class="five-detail-panel">
+            <summary><span><b>Personalize match details</b><small>Choose how much context appears for each moment</small></span><span class="detail-summary-tag">Optional</span></summary>
+            <div class="detail-content">
+              <p class="detail-hint">Turn on only the layers you want. Estimates and predictions are authored for this simulated scenario.</p>
+              <div class="detail-options" aria-label="Choose insight layers">
+                <label><input type="checkbox" data-insight="story" checked /> Moment story</label>
+                <label><input type="checkbox" data-insight="tactics" checked /> Tactical context</label>
+                <label><input type="checkbox" data-insight="technique" /> Shot technique</label>
+                <label><input type="checkbox" data-insight="footSpeed" /> Foot and speed</label>
+                <label><input type="checkbox" data-insight="xg" /> xG estimate</label>
+                <label><input type="checkbox" data-insight="keeper" /> Goalkeeper response</label>
+                <label><input type="checkbox" data-insight="nextMove" /> Possible next actions</label>
+                <label><input type="checkbox" data-insight="contact" /> Foul contact detail</label>
+                <label><input type="checkbox" data-insight="ruling" /> Referee ruling</label>
+                <label><input type="checkbox" data-insight="recap" /> Sequence recap</label>
+              </div>
+              <div id="insightCard" class="insight-card" aria-live="polite"></div>
+            </div>
+          </details>
+          <details id="playerRatingsPanel" class="player-ratings-panel">
+            <summary><span><b>Player performance ratings</b><small>Updates with scripted contributions and outcomes</small></span><span class="rating-summary-tag">Illustrative · 1–10</span></summary>
+            <p class="rating-disclaimer">Scenario-authored ratings for this synthetic replay; not official match ratings or AI-generated assessments.</p>
+            <div id="playerRatingsContent" class="player-ratings-grid"></div>
+          </details>
+        </div>
+
+        <div class="panel five-pitch-panel">
+          <div class="panel-heading"><div><p class="eyebrow">SPATIAL EXPLANATION</p><h2 id="pitchTitle">Gray releases Qi behind the dropping line</h2></div><span id="possessionLabel" class="selected-tag">Possession · #8</span></div>
+          <div class="pitch-wrap">
+            <div id="fivePitch" class="pitch five-pitch" aria-label="5v5 football pitch visualization">
+              <div class="halfway"></div><div class="center-circle"></div><div class="box left-box"></div><div class="box right-box"></div><div class="goal left-goal"></div><div class="goal right-goal"></div>
+              <div id="fivePlayers" aria-label="5v5 player positions"></div>
+              <span id="fiveBall" class="marker ball-marker">B</span>
+              <svg id="fiveTrajectory" class="trajectory" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <defs><marker id="ballPathArrow" viewBox="0 0 4 4" markerWidth="4" markerHeight="4" refX="3.4" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 4 2 L 0 4 z"></path></marker></defs>
+                <path id="ballTrajectoryPath"></path>
+              </svg>
+              <button id="scenarioInsightDot" class="scenario-insight-dot" type="button" aria-label="Open moment details" aria-expanded="false" hidden>i</button>
+              <aside id="scenarioInsightPopover" class="scenario-insight-popover" aria-labelledby="scenarioPopoverTitle" hidden>
+                <div class="scenario-popover-heading"><strong id="scenarioPopoverTitle">Moment details · simulated</strong><button id="scenarioPopoverClose" type="button" aria-label="Close moment details">×</button></div>
+                <p id="scenarioMomentSummary"></p>
+                <p><b id="scenarioOutcomeHeading">Outcome</b><span id="scenarioOutcomeText"></span></p>
+                <button id="scenarioOpenDetails" class="moment-details-link" type="button">Show in optional details</button>
+              </aside>
+            </div>
+          </div>
+          <div class="five-legend"><span><i class="legend-dot home-dot"></i>Green team</span><span><i class="legend-dot away-dot"></i>Blue team</span><span><i class="legend-dot ball-dot"></i>Ball in motion</span><span><i class="keeper-legend-arrow">➤</i>Keeper faces ball</span></div>
+          <div class="five-status"><span id="actionLabel">Ready</span><span id="actionProgress">0%</span></div>
+          <div class="five-seek"><label for="scenarioSeek">Scene progress <span id="seekTime">00:00 / 00:11</span></label><input id="scenarioSeek" type="range" min="0" max="11" step="0.1" value="0" aria-label="Seek through the current scene" /></div>
+          <div class="five-controls"><button id="fivePlay" class="primary-button" type="button">Play scenario</button><button id="fiveReset" class="quiet-button" type="button">Reset</button></div>
+        </div>
+      </section>
+    </main>
+    <script src="five-a-side.js"></script>
+  </body>
+</html>
